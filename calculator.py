@@ -1,62 +1,50 @@
-# Function for addition
-# This is Test
-def add(x, y):
-    return x + y
+import tkinter as tk
 
-# Function for subtraction
-def subtract(x, y):
-    return x - y
+# Function to update the input field
+def button_click(value):
+    current = entry.get()
+    entry.delete(0, tk.END)  # Clear the current entry field
+    entry.insert(tk.END, current + value)  # Append the clicked value to the entry
 
-# Function for multiplication
-def multiply(x, y):
-    return x * y
+# Function to clear the entry field
+def clear():
+    entry.delete(0, tk.END)
 
-# Function for division
-def divide(x, y):
-    if y == 0:
-        return "Error! Division by zero."
+# Function to evaluate the expression
+def evaluate():
+    try:
+        result = eval(entry.get())  # Using eval to evaluate the string as a mathematical expression
+        entry.delete(0, tk.END)  # Clear the entry field
+        entry.insert(tk.END, result)  # Insert the result into the entry field
+    except Exception as e:
+        entry.delete(0, tk.END)
+        entry.insert(tk.END, "Error")
+
+# Initialize the main window
+root = tk.Tk()
+root.title("Calculator")
+
+# Create the input field for the calculator
+entry = tk.Entry(root, width=20, font=("Arial", 24), borderwidth=2, relief="solid", justify="right")
+entry.grid(row=0, column=0, columnspan=4)
+
+# Button layout: buttons for digits and operations
+buttons = [
+    ('7', 1, 0), ('8', 1, 1), ('9', 1, 2), ('/', 1, 3),
+    ('4', 2, 0), ('5', 2, 1), ('6', 2, 2), ('*', 2, 3),
+    ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-', 3, 3),
+    ('0', 4, 0), ('C', 4, 1), ('=', 4, 2), ('+', 4, 3)
+]
+
+# Create the buttons dynamically
+for (text, row, col) in buttons:
+    if text == 'C':
+        btn = tk.Button(root, text=text, width=5, height=2, font=("Arial", 18), command=clear)
+    elif text == '=':
+        btn = tk.Button(root, text=text, width=5, height=2, font=("Arial", 18), command=evaluate)
     else:
-        return x / y
+        btn = tk.Button(root, text=text, width=5, height=2, font=("Arial", 18), command=lambda t=text: button_click(t))
+    btn.grid(row=row, column=col)
 
-# Function to display the menu and take input
-def show_menu():
-    print("Simple Calculator")
-    print("1. Add")
-    print("2. Subtract")
-    print("3. Multiply")
-    print("4. Divide")
-    print("5. Exit")
-
-# Main function to run the calculator
-def calculator():
-    while True:
-        show_menu()
-        try:
-            # Take user input for the operation
-            choice = int(input("Enter choice (1/2/3/4/5): "))
-
-            # Check for exit condition
-            if choice == 5:
-                print("Exiting the calculator. Goodbye!")
-                break
-
-            # Input numbers for calculation
-            num1 = float(input("Enter first number: "))
-            num2 = float(input("Enter second number: "))
-
-            # Perform the selected operation
-            if choice == 1:
-                print(f"{num1} + {num2} = {add(num1, num2)}\n")
-            elif choice == 2:
-                print(f"{num1} - {num2} = {subtract(num1, num2)}\n")
-            elif choice == 3:
-                print(f"{num1} * {num2} = {multiply(num1, num2)}\n")
-            elif choice == 4:
-                print(f"{num1} / {num2} = {divide(num1, num2)}\n")
-            else:
-                print("Invalid input! Please select a valid option.\n")
-        except ValueError:
-            print("Invalid input! Please enter a valid number.\n")
-
-if __name__ == "__main__":
-    calculator()
+# Start the main event loop to run the calculator
+root.mainloop()
