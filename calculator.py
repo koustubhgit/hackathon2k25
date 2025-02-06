@@ -55,7 +55,6 @@ def calculator():
                 print(f"{num1} / {num2} = {divide(num1, num2)}\n")
             else:
                 print("Invalid input! Please select a valid option.\n")
-            print("Invalid input! Please select a valid option.\n")
         except ValueError:
             print("Invalid input! Please enter a valid number.\n")
 
